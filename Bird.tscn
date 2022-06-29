@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/models/bird.glb" type="PackedScene" id=1]
+[ext_resource path="res://Bird.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.367855
+height = 1.64516
+
+[node name="Bird" type="RigidBody"]
+script = ExtResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+
+[node name="bird" parent="MeshInstance" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.104213 )
+shape = SubResource( 1 )
