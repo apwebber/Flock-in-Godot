@@ -13,6 +13,17 @@ var distance_matrix: Array
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	#Setup the ui elements
+	var disposable_bird = bird.instance()
+	$Grid/cohesion_slider.value = disposable_bird.cohesion_force
+	$Grid/cohesion_label.text = str(disposable_bird.cohesion_force)
+	$Grid/seperation_slider.value = disposable_bird.seperation_force
+	$Grid/seperation_label.text = str(disposable_bird.seperation_force)
+	$Grid/align_slider.value = disposable_bird.alignment_force
+	$Grid/align_label.text = str(disposable_bird.alignment_force)
+	$Grid/origin_slider.value = disposable_bird.origin_force
+	$Grid/origin_label.text = str(disposable_bird.origin_force)
+	
 	rng.randomize()
 	
 	for i in number_of_birds:
@@ -62,4 +73,26 @@ func compute_distance_matrix():
 			#store in the distance matrix
 			distance_matrix[i][j] = d
 			distance_matrix[j][i] = d
-	
+
+
+func _on_cohesion_slider_value_changed(value):
+	for b in birds:
+		b.cohesion_force = value
+	$Grid/cohesion_label.text = str(value)
+
+
+func _on_seperation_slider_value_changed(value):
+	for b in birds:
+		b.seperation_force = value
+	$Grid/seperation_label.text = str(value)
+
+
+func _on_align_slider_value_changed(value):
+	for b in birds:
+		b.alignment_force = value
+	$Grid/align_label.text = str(value)
+
+func _on_origin_slider_value_changed(value):
+	for b in birds:
+		b.origin_force = value
+	$Grid/origin_label.text = str(value)

@@ -5,7 +5,7 @@
 
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
-number_of_birds = 50
+number_of_birds = 100
 spawn_range = 100
 gravity = 0.0
 
@@ -13,3 +13,96 @@ gravity = 0.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21.066 )
 far = 1000.0
 script = ExtResource( 2 )
+
+[node name="Grid" type="GridContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 220.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+columns = 3
+
+[node name="Label3" type="Label" parent="Grid"]
+margin_top = 1.0
+margin_right = 72.0
+margin_bottom = 15.0
+text = "Cohesion:"
+
+[node name="cohesion_slider" type="HSlider" parent="Grid"]
+margin_left = 76.0
+margin_right = 176.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 100, 0 )
+step = 0.1
+
+[node name="cohesion_label" type="Label" parent="Grid"]
+margin_left = 180.0
+margin_top = 1.0
+margin_right = 188.0
+margin_bottom = 15.0
+text = "X"
+
+[node name="Label2" type="Label" parent="Grid"]
+margin_top = 21.0
+margin_right = 72.0
+margin_bottom = 35.0
+text = "Seperation:"
+
+[node name="seperation_slider" type="HSlider" parent="Grid"]
+margin_left = 76.0
+margin_top = 20.0
+margin_right = 176.0
+margin_bottom = 36.0
+step = 0.1
+
+[node name="seperation_label" type="Label" parent="Grid"]
+margin_left = 180.0
+margin_top = 21.0
+margin_right = 188.0
+margin_bottom = 35.0
+text = "X"
+
+[node name="Label" type="Label" parent="Grid"]
+margin_top = 41.0
+margin_right = 72.0
+margin_bottom = 55.0
+text = "Alignment:"
+
+[node name="align_slider" type="HSlider" parent="Grid"]
+margin_left = 76.0
+margin_top = 40.0
+margin_right = 176.0
+margin_bottom = 56.0
+
+[node name="align_label" type="Label" parent="Grid"]
+margin_left = 180.0
+margin_top = 41.0
+margin_right = 188.0
+margin_bottom = 55.0
+text = "X"
+
+[node name="Label4" type="Label" parent="Grid"]
+margin_top = 61.0
+margin_right = 72.0
+margin_bottom = 75.0
+text = "Origin:"
+
+[node name="origin_slider" type="HSlider" parent="Grid"]
+margin_left = 76.0
+margin_top = 60.0
+margin_right = 176.0
+margin_bottom = 76.0
+
+[node name="origin_label" type="Label" parent="Grid"]
+margin_left = 180.0
+margin_top = 61.0
+margin_right = 188.0
+margin_bottom = 75.0
+text = "X"
+
+[connection signal="value_changed" from="Grid/cohesion_slider" to="." method="_on_cohesion_slider_value_changed"]
+[connection signal="value_changed" from="Grid/seperation_slider" to="." method="_on_seperation_slider_value_changed"]
+[connection signal="value_changed" from="Grid/align_slider" to="." method="_on_align_slider_value_changed"]
+[connection signal="value_changed" from="Grid/origin_slider" to="." method="_on_origin_slider_value_changed"]

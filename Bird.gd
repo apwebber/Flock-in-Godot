@@ -6,12 +6,12 @@ var position = Vector3()
 var forward_velocity = Vector3(0,0,0)
 
 export var velocity_magnitude = 25.0
-export var seperation_force = 2.0
+export var seperation_force = 4.8
 export var seperation_distance = 5
-export var cohesion_force = 1.0
+export var cohesion_force = 1.2
 export var cohesion_distance = 10
-export var origin_force = 0.02
-export var alignment_force = 1.0
+export var origin_force = 0.1
+export var alignment_force = 3.0
 
 
 
@@ -27,6 +27,8 @@ func _ready():
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	forward_velocity = Vector3(0,0,0)
 	
 	#Find nearest neighbour
 	seperation()
