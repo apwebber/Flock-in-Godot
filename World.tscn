@@ -6,8 +6,10 @@
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
 number_of_birds = 50
+spawn_range = 100
 gravity = 0.0
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21.066 )
+far = 1000.0
 script = ExtResource( 2 )

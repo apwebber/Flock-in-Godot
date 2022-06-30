@@ -5,14 +5,19 @@ extends KinematicBody
 var position = Vector3()
 var forward_velocity = Vector3(0,0,0)
 
-export var velocity_magnitude = 50.0
-export var seperation_force = 5.0
-export var seperation_distance = 3.0
-export var cohesion_force = 5.0
-export var origin_force = 1.0
+export var velocity_magnitude = 25.0
+export var seperation_force = 2.0
+export var seperation_distance = 5
+export var cohesion_force = 1.0
+export var cohesion_distance = 10
+export var origin_force = 0.02
+export var alignment_force = 1.0
+
+
 
 var fellow_birds: Array
-var bird_distances: Dictionary
+var distance_matrix: Array
+var distance_key: int
 
 
 # Called when the node enters the scene tree for the first time.
@@ -24,13 +29,9 @@ func _ready():
 func _process(delta):
 	
 	#Find nearest neighbour
-	find_distances()
-	var b = find_nearest()
-	#Zero velocity
-	#forward_velocity = Vector3(0,0,0)
-	#Add seperation, attraction and alignment
-	seperation(b)
-	cohesion(b)
+	seperation()
+	cohesion()
+	align()
 	attract_to_origin()
 	
 	#Look in the right direction
@@ -43,51 +44,72 @@ func attract_to_origin():
 	var v1 = Vector3(0,0,0) - global_transform.origin
 	forward_velocity += v1.normalized() * origin_force
 	
-func seperation(nearest_bird):
-	if nearest_bird == null:
-		return
+func seperation():
 	
-	if bird_distances[nearest_bird] > seperation_distance:
-		return
+	var repulse: float
+	var v1: Vector3
+	var d: float
 	
-	var v1 = nearest_bird.global_transform.origin - global_transform.origin
-	forward_velocity -= v1.normalized() * seperation_force
+	#For every bird, repulse based on the inverse distance
 	
-func cohesion(nearest_bird):
-	if nearest_bird == null:
-		return
+	for b in fellow_birds:
+		if b == self:
+			continue
+		
+		d = distance_matrix[distance_key][b.distance_key]
+		if d > seperation_distance:
+			continue
+		
+		v1 = b.global_transform.origin - global_transform.origin
+		forward_velocity -= v1.normalized() * seperation_force * (1/d)
 	
-	var v1 = nearest_bird.global_transform.origin - global_transform.origin
-	forward_velocity += v1.normalized() * cohesion_force
+func cohesion():
+	
+	var v1: Vector3
+	var d: float
+	
+	for b in fellow_birds:
+		if b == self:
+			continue
+		
+		d = distance_matrix[distance_key][b.distance_key]
+		if d > cohesion_distance:
+			continue
+		
+		v1 = b.global_transform.origin - global_transform.origin
+		forward_velocity += v1.normalized() * cohesion_force * (1/d)
 
-func find_distances():
-	#The distance between the birds and this bird is used often so do this once
-	bird_distances = {}
+func align():
+	var v1: Vector3
+	var d: float
+	
 	for b in fellow_birds:
-		
 		if b == self:
 			continue
 		
-		var d = global_transform.origin.distance_to(b.global_transform.origin)
-		bird_distances[b] = d
-	
-func find_nearest():
-	var distance = null
-	var nearest = null
-	var d = null
-	
-	for b in fellow_birds:
+		d = distance_matrix[distance_key][b.distance_key]
+		if d > cohesion_distance:
+				continue
+				
+		forward_velocity += b.forward_velocity.normalized() * alignment_force * (1/d)
 		
-		if b == self:
-			continue
-		
-		d = bird_distances[b]
-		
-		if distance == null:
-			distance = d
-			nearest = b
-		elif d < distance:
-			distance = d
-			nearest = b
-	
-	return nearest
+#func find_nearest():
+#	var distance = null
+#	var nearest = null
+#	var d = null
+#
+#	for b in fellow_birds:
+#
+#		if b == self:
+#			continue
+#
+#		d = bird_distances[b]
+#
+#		if distance == null:
+#			distance = d
+#			nearest = b
+#		elif d < distance:
+#			distance = d
+#			nearest = b
+#
+#	return nearest

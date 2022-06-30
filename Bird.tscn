@@ -9,6 +9,10 @@ height = 1.64516
 
 [node name="Bird" type="KinematicBody"]
 script = ExtResource( 2 )
+cohesion_force = 50.0
+cohesion_distance = 50
+origin_force = 50.0
+alignment_force = 10.0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
