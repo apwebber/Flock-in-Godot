@@ -21,7 +21,7 @@ func _ready():
 		var y = rng.randf_range(-spawn_range, spawn_range)
 		
 		b.translation = Vector3(x,y,z)
-		b.gravity_scale = gravity
+		#b.gravity_scale = gravity
 		birds.append(b)
 		add_child(b)
 		

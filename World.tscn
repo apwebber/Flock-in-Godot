@@ -5,6 +5,7 @@
 
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
+number_of_birds = 50
 gravity = 0.0
 
 [node name="Camera" type="Camera" parent="."]

@@ -7,13 +7,13 @@
 radius = 0.367855
 height = 1.64516
 
-[node name="Bird" type="RigidBody"]
+[node name="Bird" type="KinematicBody"]
 script = ExtResource( 2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
 [node name="bird" parent="MeshInstance" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0, 0 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.104213 )
