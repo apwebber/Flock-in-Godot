@@ -28,8 +28,6 @@ func _ready():
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	forward_velocity = Vector3(0,0,0)
-	
 	#Find nearest neighbour
 	seperation()
 	cohesion()
@@ -39,7 +37,8 @@ func _process(delta):
 	#Look in the right direction
 	look_at(global_transform.origin - forward_velocity, Vector3.UP)
 	#Actually move
-	move_and_slide(forward_velocity.normalized()*velocity_magnitude)
+	forward_velocity = forward_velocity.normalized()
+	move_and_slide(forward_velocity*velocity_magnitude)
 	
 func attract_to_origin():
 	#All birds should be attracted to the origin so they don't just fly off into space
@@ -59,11 +58,11 @@ func seperation():
 			continue
 		
 		d = distance_matrix[distance_key][b.distance_key]
-		if d > seperation_distance:
-			continue
+		#if d > seperation_distance:
+		#	continue
 		
 		v1 = b.global_transform.origin - global_transform.origin
-		forward_velocity -= v1.normalized() * seperation_force * (1/d)
+		forward_velocity -= v1.normalized() * seperation_force * (1/(d*d))
 	
 func cohesion():
 	

@@ -17,8 +17,12 @@ func _ready():
 	var disposable_bird = bird.instance()
 	$Grid/cohesion_slider.value = disposable_bird.cohesion_force
 	$Grid/cohesion_label.text = str(disposable_bird.cohesion_force)
+	$Grid/cohesion_distance_slider.value = disposable_bird.cohesion_distance
+	$Grid/cohesion_distance_label.text = str(disposable_bird.cohesion_distance)
 	$Grid/seperation_slider.value = disposable_bird.seperation_force
 	$Grid/seperation_label.text = str(disposable_bird.seperation_force)
+	$Grid/seperation_distance_slider.value = disposable_bird.seperation_distance
+	$Grid/seperation_distance_label.text = str(disposable_bird.seperation_distance)
 	$Grid/align_slider.value = disposable_bird.alignment_force
 	$Grid/align_label.text = str(disposable_bird.alignment_force)
 	$Grid/origin_slider.value = disposable_bird.origin_force
@@ -48,7 +52,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	compute_distance_matrix()
-
+	
+func make_bird():
+	pass
+	
 func init_distance_matrix():
 	#First make sure the array is the right size
 	distance_matrix = []
@@ -80,12 +87,10 @@ func _on_cohesion_slider_value_changed(value):
 		b.cohesion_force = value
 	$Grid/cohesion_label.text = str(value)
 
-
 func _on_seperation_slider_value_changed(value):
 	for b in birds:
 		b.seperation_force = value
 	$Grid/seperation_label.text = str(value)
-
 
 func _on_align_slider_value_changed(value):
 	for b in birds:
@@ -96,3 +101,27 @@ func _on_origin_slider_value_changed(value):
 	for b in birds:
 		b.origin_force = value
 	$Grid/origin_label.text = str(value)
+
+func _on_cohesion_distance_slider_value_changed(value):
+	for b in birds:
+		b.cohesion_distance = value
+	$Grid/cohesion_distance_label.text = str(value)
+
+func _on_seperation_distance_slider_value_changed(value):
+	for b in birds:
+		b.seperation_distance = value
+	$Grid/seperation_distance_label.text = str(value)
+
+func _on_add_button_pressed():
+	pass # Replace with function body.
+
+func _on_remove_button_pressed():
+	pass # Replace with function body.
+
+
+func _on_reset_button_pressed():
+	for b in birds:
+		var x = rng.randf_range(-spawn_range, spawn_range)
+		var z = rng.randf_range(-spawn_range, spawn_range)
+		var y = rng.randf_range(-spawn_range, spawn_range)
+		b.translation = Vector3(x,y,z)
