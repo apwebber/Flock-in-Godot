@@ -13,17 +13,20 @@ export var cohesion_distance = 10
 export var origin_force = 0.1
 export var alignment_force = 3.0
 
-
+var debug_me = false
 
 var fellow_birds: Array
 var distance_matrix: Array
 var distance_key: int
+var alive = false
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	if debug_me:
+		pass
+		#print(distance_matrix)
+		#print("My distance key is :", distance_key)
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -47,7 +50,6 @@ func attract_to_origin():
 	
 func seperation():
 	
-	var repulse: float
 	var v1: Vector3
 	var d: float
 	
@@ -56,10 +58,18 @@ func seperation():
 	for b in fellow_birds:
 		if b == self:
 			continue
+			
+		#Check if the bird has been deleted
+		var wr = weakref(b)
+		if not wr.get_ref():
+			continue
 		
-		d = distance_matrix[distance_key][b.distance_key]
-		#if d > seperation_distance:
-		#	continue
+#		if debug_me:
+#			print("Distance matrix: ", distance_matrix)
+		
+		if distance_key < len(distance_matrix):
+			if b.distance_key < len(distance_matrix):
+				d = distance_matrix[distance_key][b.distance_key]
 		
 		v1 = b.global_transform.origin - global_transform.origin
 		forward_velocity -= v1.normalized() * seperation_force * (1/(d*d))
@@ -72,8 +82,16 @@ func cohesion():
 	for b in fellow_birds:
 		if b == self:
 			continue
-		
-		d = distance_matrix[distance_key][b.distance_key]
+			
+		#Check if the bird has been deleted
+		var wr = weakref(b)
+		if not wr.get_ref():
+			continue
+			
+		if distance_key < len(distance_matrix):
+			if b.distance_key < len(distance_matrix):
+				d = distance_matrix[distance_key][b.distance_key]
+				
 		if d > cohesion_distance:
 			continue
 		
@@ -81,14 +99,21 @@ func cohesion():
 		forward_velocity += v1.normalized() * cohesion_force * (1/d)
 
 func align():
-	var v1: Vector3
 	var d: float
 	
 	for b in fellow_birds:
 		if b == self:
 			continue
+			
+		#Check if the bird has been deleted
+		var wr = weakref(b)
+		if not wr.get_ref():
+			continue
 		
-		d = distance_matrix[distance_key][b.distance_key]
+		if distance_key < len(distance_matrix):
+			if b.distance_key < len(distance_matrix):
+				d = distance_matrix[distance_key][b.distance_key]
+				
 		if d > cohesion_distance:
 				continue
 				
