@@ -66,10 +66,7 @@ func make_bird(debug_me):
 	b.fellow_birds = birds
 	b.distance_matrix = distance_matrix
 
-	#print(len(distance_matrix))
 	compute_distance_matrix()
-	#print(len(distance_matrix))
-
 	add_child(b)
 
 	
@@ -98,11 +95,6 @@ func compute_distance_matrix():
 				continue
 			
 			var d = birds[i].global_transform.origin.distance_to(birds[j].global_transform.origin)
-			
-			print(i, j, len(distance_matrix))
-			
-#			if j == len(distance_matrix):
-#				expand_distance_matrix()
 			
 			#store in the distance matrix
 			distance_matrix[i][j] = d
